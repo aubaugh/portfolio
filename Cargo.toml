@@ -1,0 +1,29 @@
+[package]
+name = "portfolio"
+description = "A portfolio generator"
+version = "0.1.0"
+authors = ["Austin Baugh <abaugh@pdx.edu>"]
+edition = "2018"
+repository = "https://github.com/austinsheep/austinsheep.github.io"
+readme = "README.md"
+license = "MIT"
+
+[lib]
+crate-type = ["cdylib"] # Don't forget this!
+
+[dependencies]
+wasm-bindgen = "0.2.37"
+js-sys = "0.3.14"
+virtual-dom-rs = "0.6"
+css-rs-macro = "0.1"
+ron = "0.5.1"
+serde = { version = "1", features = ["serde_derive"] }
+
+[dependencies.web-sys]
+version = "0.3"
+features = [
+    "Document",
+    "MouseEvent",
+    "Window",
+    "console"
+]

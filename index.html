@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" type="text/css" href="/app.css" />
+        <link rel="shortcut icon" href="#" />
+        <title>Client Side Demo</title>
+    </head>
+    <body style="margin: 0; padding: 0; width: 100%; height: 100%;">
+        <script type="module">
+            // Import and use `portfolio`
+            import { App, default as init } from '/portfolio.js'
+            async function run() {
+                await init('/portfolio_bg.wasm')
+                new App()
+            }
+            run()
+        </script>
+    </body>
+</html>

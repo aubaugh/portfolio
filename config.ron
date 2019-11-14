@@ -1,0 +1,16 @@
+PortfolioConfig(
+    name: "Austin Baugh",
+    about: "Soon-to-be graudate",
+    projects: [
+        ProjectConfig(
+            name: "Roost",
+            description: "A web app",
+            url: "https://nest.pijul.com/austin/roost",
+        ),
+        ProjectConfig(
+            name: "LeavesCalculator",
+            description: "A web app2",
+            url: "https://github.com/leavescalculator/LeavesCalculator",
+        ),
+    ],
+)
