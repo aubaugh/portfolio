@@ -3,8 +3,10 @@
 # End:
 # vim: set ft=make :
 
+output-dir := "../austinsheep.github.io"
+
 # Build portfolio
 build:
-    mkdir -p build
-    OUTPUT_CSS=build/app.css wasm-pack build --target web --no-typescript --out-dir build
-    cp index.html build
+    mkdir -p {{output-dir}}
+    OUTPUT_CSS={{output-dir}}+"/app.css" wasm-pack build --target web --no-typescript --out-dir {{output-dir}}
+    cp index.html {{output-dir}}
