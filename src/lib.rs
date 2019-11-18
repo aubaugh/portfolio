@@ -2,6 +2,7 @@
 
 use wasm_bindgen::prelude::*;
 use web_sys;
+#[cfg(target_arch = "wasm32")]
 use web_sys::MouseEvent;
 
 use css_rs_macro::css;
@@ -45,37 +46,50 @@ impl App {
         let projects: Vec<VirtualNode> = config.projects
             .iter().map(|project| {
             let languages: Vec<VirtualNode> = project.languages
-                .iter().map(|language| {
+                .iter().enumerate().map(|(index, language)| {
+                let separator = if index + 1 < project.languages.len() {
+                    VirtualNode::text(" \u{2662} ")
+                } else {
+                    VirtualNode::text("")
+                };
                 html! {
-                    <a href=config.languages[&language.to_string()].to_string()>
-                        { language.to_string() }
-                    </a>
+                    <span><em><a
+                        href=config.languages[&language.to_string()].to_string()
+                    >{ language.to_string() }</a></em>{
+                        separator
+                    }</span>
                 }
             }).collect();
             let technologies: Vec<VirtualNode> = project.technologies
-                .iter().map(|technology| {
+                .iter().enumerate().map(|(index, technology)| {
+                let separator = if index + 1 < project.technologies.len() {
+                    VirtualNode::text(" \u{2662} ")
+                } else {
+                    VirtualNode::text("")
+                };
                 html! {
-                    <a href=config.technologies[&technology.to_string()].to_string()>
-                        { technology.to_string() }
-                    </a>
+                    <span><em><a
+                        href=config.technologies[&technology.to_string()].to_string()
+                    >{ technology.to_string() }</a></em>{
+                        separator
+                    }</span>
                 }
             }).collect();
             html! {
-                <div>
+                <div class=PROJECT>
                     <p>
-                        <a href=project.url.to_string() class="inline">
-                            { project.name.to_string() }
-                        </a>
-                        <span class="right">
+                        <a
+                            href=project.url.to_string()
+                        >{ project.name.to_string() }</a>
+                        <span class=RIGHT>
                             <b>Role:</b> { project.role.to_string() }
                         </span>
                     </p>
                     <p>{ project.description.to_string() }</p>
                     <p>
-                        Languages: <em> { languages } </em>
-                        <span class="right">
-                            Technologies: <em> { technologies } </em>
-                        </span>
+                        Languages: { languages }
+                        <br />
+                        Technologies: { technologies }
                     </p>
                 </div>
             }
@@ -85,10 +99,10 @@ impl App {
         email_url.push_str(&config.email);
 
         let view = html! {
-            <div>
-                <h2>{ config.name }</h2>
-                <em><a href=email_url>{ config.email }</a></em>
-                <p><b>About: </b>{ config.about }</p>
+            <div class=CONTENT>
+                <h2 class=CENTER>{ config.name }</h2>
+                <p class=CENTER><em><a href=email_url>{ config.email }</a></em></p>
+                <p>{ config.about }</p>
                 { projects }
             </div>
         };
@@ -103,24 +117,30 @@ impl App {
     }
 }
 
-static _STYLE: &'static str = css!{r#"
-    h2 {
+static CONTENT: &'static str = css!{r#"
+    :host {
+        margin: 0 auto;
+        max-width: 700px;
+        padding: 25px;
+    }
+"#};
+
+static CENTER: &'static str = css!{r#"
+    :host {
         text-align: center;
     }
+"#};
 
-    div {
-        border-radius: 25px;
+static RIGHT: &'static str = css!{r#"
+    :host {
+        float: right;
+    }
+"#};
+
+static PROJECT: &'static str = css!{r#"
+    :host {
         border: 2px solid #ccc;
         padding: 25px;
         margin: 5px auto;
-        max-width: 75%;
-    }
-
-    a {
-        margin-right: 5px;
-    }
-
-    .right {
-        float: right;
     }
 "#};

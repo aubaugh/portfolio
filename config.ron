@@ -1,6 +1,6 @@
 Portfolio(
     name: "Austin Baugh",
-    email: "abaugh@pdx.edu",
+    email: "austinsbaugh@gmail.com",
     about: "A Computer Science student who will be graudating from Portland State University with their Bachelor's degree in December 2019.",
     languages: {
         "Rust":         "https://www.rust-lang.org/",
