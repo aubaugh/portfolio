@@ -1,16 +1,69 @@
-PortfolioConfig(
+Portfolio(
     name: "Austin Baugh",
-    about: "Soon-to-be graudate",
+    email: "abaugh@pdx.edu",
+    about: "A Computer Science student who will be graudating from Portland State University with their Bachelor's degree in December 2019.",
+    languages: {
+        "Rust":         "https://www.rust-lang.org/",
+        "Python":       "https://www.python.org/",
+        "ECMAScript 6": "https://www.w3schools.com/Js/js_es6.asp",
+    },
+    technologies: {
+        "Web Assembly": "https://rustwasm.github.io/",
+        "Pijul":        "https://pijul.org/",
+        "Django":       "https://www.djangoproject.com/",
+        "Vue.js":       "https://vuejs.org/",
+        "ggez":         "https://ggez.rs/",
+        "NumPy":        "https://numpy.org/",
+        "Matplotlib":   "https://matplotlib.org/",
+    },
     projects: [
-        ProjectConfig(
+        Project(
+            name: "Portfolio",
+            role: "Creator",
+            languages: [ "Rust" ],
+            technologies: [ "Web Assembly" ],
+            description: "The Rust crate used to generate this portfolio.",
+            url: "https://github.com/austinsheep/portfolio",
+        ),
+        Project(
             name: "Roost",
-            description: "A web app",
+            role: "Creator",
+            languages: [ "Rust" ],
+            technologies: [ "Web Assembly", "Pijul" ],
+            description: "Roost is a repository viewer for the Pijul VCS. It is meant to be similar to Github, Gitlab, or The Pijul Nest, but is only intended for offline work.",
             url: "https://nest.pijul.com/austin/roost",
         ),
-        ProjectConfig(
-            name: "LeavesCalculator",
-            description: "A web app2",
+        Project(
+            name: "evolution",
+            role: "Creator",
+            languages: [ "Rust" ],
+            technologies: [ "ggez" ],
+            description: "A 2D genetic algorithm simulation.",
+            url: "https://github.com/austinsheep/evolution",
+        ),
+        Project(
+            name: "Leaves Calculator",
+            role: "Contributor",
+            languages: [ "Python", "ECMAScript 6" ],
+            technologies: [ "Django", "Vue.js" ],
+            description: "This is the repository for a web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and types of leave they are eligible for.",
             url: "https://github.com/leavescalculator/LeavesCalculator",
+        ),
+        Project(
+            name: "Percy",
+            role: "Contributor",
+            languages: [ "Rust" ],
+            technologies: [ "Web Assembly" ],
+            description: "A framework for creating isomorphic web apps where I added the feature of downloading a JSON object to the example application.",
+            url: "https://github.com/chinedufn/percy",
+        ),
+        Project(
+            name: "Convex Hull Visualizer",
+            role: "Contributor",
+            languages: [ "Python" ],
+            technologies: [ "NumPy", "Matplotlib" ],
+            description: "A program to visually see different convex hull algorithms solve a variety of datasets.",
+            url: "https://github.com/tinlun/cs350-convex-hull",
         ),
     ],
 )
