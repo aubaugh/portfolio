@@ -35,7 +35,7 @@ Portfolio(
             role: "Cocreator",
             languages: [ "Python", "ECMAScript 6" ],
             technologies: [ "Django", "Vue.js" ],
-            description: "A full stack web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and types of leave they are eligible for by asking them a series of questions.  The series of questions is based on a directed graph, and is also dependant values within the database.  Additionally, this web app includes features for an administrator to change much of the fundamental logic for the directed graph without writing code through a Cytoscape graph.",
+            description: "A full stack web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and types of leave they are eligible for.  The employees are asked a series of questions that is based on a directed graph.  Additionally, this web app includes features for an administrator to change much of the fundamental logic for the directed graph without writing code through a Cytoscape graph.",
             url: "https://github.com/leavescalculator/LeavesCalculator",
         ),
         Project(

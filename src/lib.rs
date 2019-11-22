@@ -120,7 +120,7 @@ impl App {
 
 static CONTENT: &'static str = css!{r#"
     :host {
-        margin: 10px auto;
+        margin: 0 auto;
         max-width: 700px;
         padding: 25px;
         background-color: #999999;
