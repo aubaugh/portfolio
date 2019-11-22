@@ -77,20 +77,21 @@ impl App {
             }).collect();
             html! {
                 <div class=PROJECT>
-                    <p>
+                    <div>
                         <a
                             href=project.url.to_string()
+                            class=PROJECT_NAME
                         >{ project.name.to_string() }</a>
                         <span class=RIGHT>
-                            <b>Role:</b> { project.role.to_string() }
+                            <b>Role: </b> { project.role.to_string() }
                         </span>
-                    </p>
+                    </div>
                     <p>{ project.description.to_string() }</p>
-                    <p>
-                        Languages: { languages }
+                    <div>
+                        <b>Languages: </b> { languages }
                         <br />
-                        Technologies: { technologies }
-                    </p>
+                        <b>Technologies: </b> { technologies }
+                    </div>
                 </div>
             }
         }).collect();
@@ -101,7 +102,7 @@ impl App {
         let view = html! {
             <div class=CONTENT>
                 <h2 class=CENTER>{ config.name }</h2>
-                <p class=CENTER><em><a href=email_url>{ config.email }</a></em></p>
+                <div class=CENTER><em><a href=email_url>{ config.email }</a></em></div>
                 <p>{ config.about }</p>
                 { projects }
             </div>
@@ -119,9 +120,11 @@ impl App {
 
 static CONTENT: &'static str = css!{r#"
     :host {
-        margin: 0 auto;
+        margin: 10px auto;
         max-width: 700px;
         padding: 25px;
+        background-color: #999999;
+        color: #000000;
     }
 "#};
 
@@ -139,8 +142,30 @@ static RIGHT: &'static str = css!{r#"
 
 static PROJECT: &'static str = css!{r#"
     :host {
-        border: 2px solid #ccc;
         padding: 25px;
         margin: 5px auto;
+        background-color: #cccccc;
+    }
+"#};
+
+static PROJECT_NAME: &'static str = css!{r#"
+    :host {
+        font-size: large;
+        font-weight: bold;
+    }
+"#};
+
+static _STYLE: &'static str = css!{r#"
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #333333;
+        font-family: Georgia, serif;
+    }
+
+    p {
+        text-indent: 2em;
     }
 "#};
