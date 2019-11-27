@@ -2,7 +2,7 @@ Portfolio(
     // The information of whose portfolio this belongs to
     name: "Austin Baugh",
     email: "austinsbaugh@gmail.com",
-    about: "A Computer Science student who will be graudating from Portland State University with a Bachelor's degree in December 2019.",
+    about: "A Computer Science student who will be graduating from Portland State University with a Bachelor's degree in December 2019.",
     // The links to languages and technologies used on one or more projects
     languages: {
         "Rust":         "https://www.rust-lang.org/",
@@ -35,7 +35,7 @@ Portfolio(
             role: "Cocreator",
             languages: [ "Python", "ECMAScript 6" ],
             technologies: [ "Django", "Vue.js" ],
-            description: "A full stack web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and types of leave they are eligible for.  The employees are asked a series of questions that is based on a directed graph.  Additionally, this web app includes features for an administrator to change much of the fundamental logic for the directed graph without writing code through a Cytoscape graph.",
+            description: "A full stack web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and types of leave they are eligible for. The employees are asked a series of questions that is based on a directed graph. Additionally, this web app includes features for an administrator to change much of the fundamental logic for the directed graph without writing code through a Cytoscape graph.",
             url: "https://github.com/leavescalculator/LeavesCalculator",
         ),
         Project(
@@ -43,7 +43,7 @@ Portfolio(
             role: "Creator",
             languages: [ "Rust" ],
             technologies: [ "ggez" ],
-            description: "A 2D genetic algorithm simulation that displays a top-down perspective of 'fish' who are swimming within an enclosure. The fish have predatory behaviors based on their size, eating each other or just the stagnant 'food' if they are too small to consume fish. They will reproduce a-sexually by cloning themselves and have a possibility of developing genetic mutations.",
+            description: "A 2D genetic algorithm simulation that displays a top-down perspective of 'fish' who are swimming within an enclosure. The fish have predatory behaviors based on their size, eating each other or just the stagnant 'food' if they are too small to consume fish. They reproduce asexually through cloning and have a possibility of developing genetic mutations.",
             url: "https://github.com/austinsheep/evolution",
         ),
         Project(
@@ -59,7 +59,7 @@ Portfolio(
             role: "Contributor",
             languages: [ "Rust" ],
             technologies: [ "Web Assembly" ],
-            description: "A framework for creating isomorphic web apps where I had a pull request approved for downloading a JSON object to the example isomorphic web app.  This feature was ultimately used when creating Roost. Percy utilizes web assembly while still following many of the modern techniques of other full stack frameworks.",
+            description: "Percy is a framework for creating isomorphic web apps that utilizes web assembly, while still following many of the modern techniques of other full stack frameworks. I added a feature through an approved pull request that allows you to download a JSON object to the example isomorphic web app. This feature was ultimately used within Roost.",
             url: "https://github.com/chinedufn/percy",
         ),
         Project(
@@ -67,7 +67,7 @@ Portfolio(
             role: "Cocreator",
             languages: [ "Python" ],
             technologies: [ "NumPy", "Matplotlib" ],
-            description: "A program to see animations of different convex hull algorithms solve a variety of datasets, allowing the viewer to observe their differences.",
+            description: "A program that animates different convex hull algorithms solving a variety of datasets, allowing the viewer to observe their differences.",
             url: "https://github.com/tinlun/cs350-convex-hull",
         ),
     ],
