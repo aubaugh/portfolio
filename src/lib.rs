@@ -76,21 +76,24 @@ impl App {
                 }
             }).collect();
             html! {
-                <div class=PROJECT>
-                    <div>
-                        <a
-                            href=project.url.to_string()
-                            class=PROJECT_NAME
-                        >{ project.name.to_string() }</a>
-                        <span class=RIGHT>
-                            <b>Role: </b> { project.role.to_string() }
-                        </span>
-                    </div>
-                    <p>{ project.description.to_string() }</p>
-                    <div>
-                        <b>Languages: </b> { languages }
-                        <br />
-                        <b>Technologies: </b> { technologies }
+                <div>
+                    <hr />
+                    <div class=PROJECT>
+                        <div>
+                            <a
+                                href=project.url.to_string()
+                                class=PROJECT_NAME
+                            >{ project.name.to_string() }</a>
+                            <span class=RIGHT>
+                                <b>Role: </b> { project.role.to_string() }
+                            </span>
+                        </div>
+                        <p>{ project.description.to_string() }</p>
+                        <div>
+                            <b>Languages: </b> { languages }
+                            <br />
+                            <b>Technologies: </b> { technologies }
+                        </div>
                     </div>
                 </div>
             }
@@ -122,9 +125,12 @@ static CONTENT: &'static str = css!{r#"
     :host {
         margin: 0 auto;
         max-width: 700px;
+        width: calc(100% - 100px);
         padding: 25px;
-        background-color: #999999;
-        color: #000000;
+        border-radius: 25px;
+        background-color: #ffffff8c;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 "#};
 
@@ -142,9 +148,7 @@ static RIGHT: &'static str = css!{r#"
 
 static PROJECT: &'static str = css!{r#"
     :host {
-        padding: 25px;
-        margin: 5px auto;
-        background-color: #cccccc;
+        margin: 5px 0;
     }
 "#};
 
@@ -158,11 +162,13 @@ static PROJECT_NAME: &'static str = css!{r#"
 static _STYLE: &'static str = css!{r#"
     body {
         margin: 0;
-        padding: 0;
+        padding: 25px 0;
         width: 100%;
         height: 100%;
-        background-color: #333333;
-        font-family: Georgia, serif;
+        background-image: url(background.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-family: "Arial", Courier, monospace;
     }
 
     p {

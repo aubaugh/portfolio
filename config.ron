@@ -32,7 +32,7 @@ Portfolio(
         ),
         Project(
             name: "Leaves Calculator",
-            role: "Cocreator",
+            role: "Contributor",
             languages: [ "Python", "ECMAScript 6" ],
             technologies: [ "Django", "Vue.js" ],
             description: "A full stack web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and types of leave they are eligible for. The employees are asked a series of questions that is based on a directed graph. Additionally, this web app includes features for an administrator to change much of the fundamental logic for the directed graph without writing code through a Cytoscape graph.",
@@ -64,7 +64,7 @@ Portfolio(
         ),
         Project(
             name: "Convex Hull Visualizer",
-            role: "Cocreator",
+            role: "Contributor",
             languages: [ "Python" ],
             technologies: [ "NumPy", "Matplotlib" ],
             description: "A program that animates different convex hull algorithms solving a variety of datasets, allowing the viewer to observe their differences.",
