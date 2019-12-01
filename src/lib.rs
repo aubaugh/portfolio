@@ -2,8 +2,6 @@
 
 use wasm_bindgen::prelude::*;
 use web_sys;
-#[cfg(target_arch = "wasm32")]
-use web_sys::MouseEvent;
 
 use css_rs_macro::css;
 use virtual_dom_rs::prelude::*;
@@ -165,9 +163,6 @@ static _STYLE: &'static str = css!{r#"
         padding: 25px 0;
         width: 100%;
         height: 100%;
-        background-image: url(background.jpg);
-        background-repeat: no-repeat;
-        background-size: cover;
         font-family: "Arial", Courier, monospace;
     }
 
