@@ -14,11 +14,12 @@ Portfolio(
         "Pijul":        "https://pijul.org/",
         "RON":          "https://github.com/ron-rs/ron",
         "Django":       "https://www.djangoproject.com/",
-        "Cytoscape":    "https://js.cytoscape.org/",
+        "Cytoscape.js": "https://js.cytoscape.org/",
         "Vue.js":       "https://vuejs.org/",
         "ggez":         "https://ggez.rs/",
         "NumPy":        "https://numpy.org/",
         "Matplotlib":   "https://matplotlib.org/",
+        "SQLite":       "https://sqlite.org/index.html",
     },
     // The collection of projects that make up the portfolio
     projects: [
@@ -34,8 +35,8 @@ Portfolio(
             name: "Leaves Calculator",
             role: "Contributor",
             languages: [ "Python", "ECMAScript 6" ],
-            technologies: [ "Django", "Vue.js" ],
-            description: "A full stack web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and types of leave they are eligible for. The employees are asked a series of questions that is based on a directed graph. Additionally, this web app includes features for an administrator to change much of the fundamental logic for the directed graph without writing code through a Cytoscape graph.",
+            technologies: [ "Django", "SQLite", "Vue.js", "Cytoscape.js" ],
+            description: "A full stack web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and type of leaves they are eligible for. The employees are asked a series of questions that is based on a directed graph. Additionally, this web app includes features for an administrator to change much of the directed graph by manipulating a Cytoscape graph.",
             url: "https://github.com/leavescalculator/LeavesCalculator",
         ),
         Project(
