@@ -27,6 +27,7 @@ struct Project {
     languages: Vec<String>,
     technologies: Vec<String>,
     description: String,
+    video: Option<String>,
     url: String,
 }
 
@@ -73,6 +74,18 @@ impl App {
                     }</span>
                 }
             }).collect();
+            let video = match &project.video {
+                Some(path) => html! {
+                    <video
+                        src=path 
+                        loop="true"
+                        controls="true"
+                    >
+                        Your browser does not support HTML5 videos
+                    </video>
+                },
+                None => VirtualNode::text(""),
+            };
             html! {
                 <div>
                     <hr />
@@ -87,6 +100,7 @@ impl App {
                             </span>
                         </div>
                         <p>{ project.description.to_string() }</p>
+                        { video }
                         <div>
                             <b>Languages: </b> { languages }
                             <br />
@@ -168,5 +182,9 @@ static _STYLE: &'static str = css!{r#"
 
     p {
         text-indent: 2em;
+    }
+
+    video {
+        width: 100%;
     }
 "#};

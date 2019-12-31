@@ -11,4 +11,5 @@ build:
     OUTPUT_CSS={{output-dir}}/app.css wasm-pack build --target web --no-typescript --out-dir {{output-dir}}
     rm {{output-dir}}/.gitignore
     cp index.html {{output-dir}}
+    cp -R assets {{output-dir}}
     cp background.jpg {{output-dir}}

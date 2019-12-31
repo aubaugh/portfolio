@@ -29,6 +29,7 @@ Portfolio(
             languages: [ "Rust" ],
             technologies: [ "Web Assembly", "RON" ],
             description: "The Rust crate used to generate this portfolio based on the contents of a configuration file in Rusty Object Notation.",
+            video: None,
             url: "https://github.com/austinsheep/portfolio",
         ),
         Project(
@@ -37,6 +38,7 @@ Portfolio(
             languages: [ "Python", "ECMAScript 6" ],
             technologies: [ "Django", "SQLite", "Vue.js", "Cytoscape.js" ],
             description: "A full stack web app that is designed for Portland State University's HR department to assist PSU employees with determining the amount and type of leaves they are eligible for. The employees are asked a series of questions that is based on a directed graph. Additionally, this web app includes features for an administrator to change much of the directed graph by manipulating a Cytoscape graph.",
+            video: Some("assets/LeavesCalculator.webm"),
             url: "https://github.com/leavescalculator/LeavesCalculator",
         ),
         Project(
@@ -45,6 +47,7 @@ Portfolio(
             languages: [ "Rust" ],
             technologies: [ "ggez" ],
             description: "A 2D genetic algorithm simulation that displays a top-down perspective of 'fish' who are swimming within an enclosure. The fish have predatory behaviors based on their size, eating each other or just the stagnant 'food' if they are too small to consume fish. They reproduce asexually through cloning and have a possibility of developing genetic mutations.",
+            video: Some("assets/Evolution.webm"),
             url: "https://github.com/austinsheep/evolution",
         ),
         Project(
@@ -53,6 +56,7 @@ Portfolio(
             languages: [ "Rust" ],
             technologies: [ "Web Assembly", "Pijul" ],
             description: "Roost is a repository viewer for the Pijul VCS. It is meant to be similar to Github, Gitlab, or The Pijul Nest, but is only intended for offline work. Roost is a fork of Percy's isomorphic web app example, allowing majority of the source code to be in Rust and compiled to web assembly.",
+            video: Some("assets/Roost.webm"),
             url: "https://nest.pijul.com/austin/roost",
         ),
         Project(
@@ -61,6 +65,7 @@ Portfolio(
             languages: [ "Rust" ],
             technologies: [ "Web Assembly" ],
             description: "Percy is a framework for creating isomorphic web apps that utilizes web assembly, while still following many of the modern techniques of other full stack frameworks. I added a feature through an approved pull request that allows you to download a JSON object to the example isomorphic web app. This feature was ultimately used within Roost.",
+            video: None,
             url: "https://github.com/chinedufn/percy",
         ),
         Project(
@@ -69,6 +74,7 @@ Portfolio(
             languages: [ "Python" ],
             technologies: [ "NumPy", "Matplotlib" ],
             description: "A program that animates different convex hull algorithms solving a variety of datasets, allowing the viewer to observe their differences.",
+            video: Some("assets/ConvexHull.webm"),
             url: "https://github.com/tinlun/cs350-convex-hull",
         ),
     ],
