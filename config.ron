@@ -2,7 +2,7 @@ Portfolio(
     // The information of whose portfolio this belongs to
     name: "Austin Baugh",
     email: "austinsbaugh@gmail.com",
-    about: "A Computer Science student who will be graduating from Portland State University with a Bachelor's degree in December 2019.",
+    about: "Newly-graduated Computer Science student seeking a Junior level software engineering position",
     // The links to languages and technologies used on one or more projects
     languages: {
         "Rust":         "https://www.rust-lang.org/",
@@ -20,9 +20,20 @@ Portfolio(
         "NumPy":        "https://numpy.org/",
         "Matplotlib":   "https://matplotlib.org/",
         "SQLite":       "https://sqlite.org/index.html",
+        "async-std":    "https://async.rs/",
+        "StructOpt":    "https://docs.rs/structopt",
     },
     // The collection of projects that make up the portfolio
     projects: [
+        Project(
+            name: "OrbitDB HTTP Client",
+            role: "Creator",
+            languages: [ "Rust" ],
+            technologies: [ "async-std", "StructOpt" ],
+            description: "A Rust library crate for interfacing with OrbitDB's REST API, along with a binary that allows for executing commands via the command line interface.",
+            video: None,
+            url: "https://github.com/austinsheep/rs-orbit-db-http-client",
+        ),
         Project(
             name: "Portfolio",
             role: "Creator",
@@ -58,15 +69,6 @@ Portfolio(
             description: "Roost is a repository viewer for the Pijul VCS. It is meant to be similar to Github, Gitlab, or The Pijul Nest, but is only intended for offline work. Roost is a fork of Percy's isomorphic web app example, allowing majority of the source code to be in Rust and compiled to web assembly.",
             video: Some("assets/Roost.webm"),
             url: "https://nest.pijul.com/austin/roost",
-        ),
-        Project(
-            name: "Percy",
-            role: "Contributor",
-            languages: [ "Rust" ],
-            technologies: [ "Web Assembly" ],
-            description: "Percy is a framework for creating isomorphic web apps that utilizes web assembly, while still following many of the modern techniques of other full stack frameworks. I added a feature through an approved pull request that allows you to download a JSON object to the example isomorphic web app. This feature was ultimately used within Roost.",
-            video: None,
-            url: "https://github.com/chinedufn/percy",
         ),
         Project(
             name: "Convex Hull Visualizer",
