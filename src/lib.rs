@@ -90,12 +90,12 @@ impl App {
                 <div>
                     <hr />
                     <div class=PROJECT>
-                        <div>
+                        <div class=PROJECT_BANNER>
                             <a
                                 href=project.url.to_string()
                                 class=PROJECT_NAME
                             >{ project.name.to_string() }</a>
-                            <span class=RIGHT>
+                            <span>
                                 <b>Role: </b> { project.role.to_string() }
                             </span>
                         </div>
@@ -116,7 +116,7 @@ impl App {
 
         let view = html! {
             <div class=CONTENT>
-                <h2 class=CENTER>{ config.name }</h2>
+                <h1 class=CENTER>{ config.name }</h1>
                 <div class=CENTER><em><a href=email_url>{ config.email }</a></em></div>
                 <p>{ config.about }</p>
                 { projects }
@@ -152,21 +152,22 @@ static CENTER: &'static str = css!{r#"
     }
 "#};
 
-static RIGHT: &'static str = css!{r#"
-    :host {
-        float: right;
-    }
-"#};
-
 static PROJECT: &'static str = css!{r#"
     :host {
         margin: 5px 0;
     }
 "#};
 
+static PROJECT_BANNER: &'static str = css!{r#"
+    :host {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+"#};
 static PROJECT_NAME: &'static str = css!{r#"
     :host {
-        font-size: large;
+        font-size: x-large;
         font-weight: bold;
     }
 "#};
