@@ -168,6 +168,7 @@ impl State {
                                             html!("a", {
                                                 .attribute("href", &project.url)
                                                 .class(&*PROJECT_NAME)
+                                                .text(&project.name)
                                             }),
                                             html!("span", {
                                                 .children(&mut [
