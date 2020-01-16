@@ -1,14 +1,11 @@
-#![feature(proc_macro_hygiene)]
-
-use wasm_bindgen::prelude::*;
-use web_sys;
-
-use css_rs_macro::css;
-use virtual_dom_rs::prelude::*;
-use std::collections::HashMap;
-
+use dominator::{class, html, Dom};
+use futures_signals::signal::always;
+use lazy_static::lazy_static;
 use ron::de::from_str;
 use serde::Deserialize;
+use std::collections::HashMap;
+use std::sync::Arc;
+use wasm_bindgen::prelude::*;
 
 /// The configuration structure that is included and deserialized from `config.ron`
 #[derive(Debug, Deserialize)]
@@ -18,7 +15,7 @@ struct Portfolio {
     about: String,
     languages: HashMap<String, String>,
     technologies: HashMap<String, String>,
-    projects: Vec<Project>
+    projects: Vec<Project>,
 }
 #[derive(Debug, Deserialize)]
 struct Project {
@@ -31,161 +28,244 @@ struct Project {
     url: String,
 }
 
-#[wasm_bindgen]
-struct App {
-  dom_updater: DomUpdater
+struct State {
+    config: Portfolio,
 }
 
-#[wasm_bindgen]
-impl App {
-    #[wasm_bindgen(constructor)]
-    pub fn new () -> App {
-        let config_file = include_str!("../config.ron");
-        let config: Portfolio = from_str(config_file).unwrap();
-        let projects: Vec<VirtualNode> = config.projects
-            .iter().map(|project| {
-            let languages: Vec<VirtualNode> = project.languages
+impl State {
+    fn new() -> Arc<Self> {
+        let config_file = include_str!("../static/config.ron");
+        Arc::new(Self {
+            config: from_str(config_file).unwrap(),
+        })
+    }
+
+    fn render(state: Arc<Self>) -> Dom {
+        lazy_static! {
+            static ref BACKGROUND: String = class! {
+                .style("padding", "25px 0")
+                .style("width", "100%")
+                .style("height", "100%")
+                .style(
+                    "background-image",
+                    "url(assets/background.jpg)"
+                )
+                .style("background-repeat", "no-repeat")
+                .style("background-size", "cover")
+                .style("background-attachment", "fixed")
+            };
+            static ref CONTENT: String = class! {
+                .style("margin", "0 auto")
+                .style("max-width", "700px")
+                .style("width", "calc(100% - 100px)")
+                .style("padding", "25px")
+                .style("border-radius", "25px")
+                .style("background-color", "#ffffff8c")
+                .style_signal([
+                    "backdrop-filter",
+                    "-webkit-backdrop-filter"
+                ], always("blur(10px)"))
+            };
+            static ref CENTER: String = class! {
+                .style("text-align", "center")
+            };
+            static ref PROJECT: String = class! {
+                .style("margin", "5px 0")
+            };
+            static ref PROJECT_BANNER: String = class! {
+                .style("display", "flex")
+                .style("align-items", "center")
+                .style("justify-content", "space-between")
+            };
+            static ref PROJECT_NAME: String = class! {
+                .style("font-size", "x-large")
+                .style("font-weight", "bold")
+            };
+            static ref PARAGRAPH: String = class! {
+                .style("text-indent", "2em")
+            };
+            static ref VIDEO: String = class! {
+                .style("width", "100%")
+            };
+        }
+
+        let mut projects: Vec<Dom> =
+            state
+                .config
+                .projects
+                .iter()
+                .map(|project| {
+                    let mut languages: Vec<Dom> = project.languages
                 .iter().enumerate().map(|(index, language)| {
                 let separator = if index + 1 < project.languages.len() {
-                    VirtualNode::text(" \u{2662} ")
+                    String::from(" \u{2662} ")
                 } else {
-                    VirtualNode::text("")
+                    String::new()
                 };
-                html! {
-                    <span><em><a
-                        href=config.languages[&language.to_string()].to_string()
-                    >{ language.to_string() }</a></em>{
-                        separator
-                    }</span>
-                }
+
+                html!("span", {
+                    .children(&mut [
+                        html!("em", {
+                            .children(&mut [
+                                html!("a", {
+                                    .attribute("href", &state.config.languages[language])
+                                    .text(&language)
+                                }),
+                                html!("span", {
+                                    .text(&separator)
+                                })
+                            ])
+                        })
+                    ])
+                })
             }).collect();
-            let technologies: Vec<VirtualNode> = project.technologies
+
+                    let mut technologies: Vec<Dom> = project.technologies
                 .iter().enumerate().map(|(index, technology)| {
                 let separator = if index + 1 < project.technologies.len() {
-                    VirtualNode::text(" \u{2662} ")
+                    String::from(" \u{2662} ")
                 } else {
-                    VirtualNode::text("")
+                    String::new()
                 };
-                html! {
-                    <span><em><a
-                        href=config.technologies[&technology.to_string()].to_string()
-                    >{ technology.to_string() }</a></em>{
-                        separator
-                    }</span>
-                }
+
+                html!("span", {
+                    .children(&mut [
+                        html!("em", {
+                            .children(&mut [
+                                html!("a", {
+                                    .attribute("href", &state.config.technologies[technology])
+                                    .text(&technology)
+                                }),
+                                html!("span", {
+                                    .text(&separator)
+                                })
+                            ])
+                        })
+                    ])
+                })
             }).collect();
-            let video = match &project.video {
-                Some(path) => html! {
-                    <video
-                        src=path 
-                        loop="true"
-                        controls="true"
-                    >
-                        Your browser does not support HTML5 videos
-                    </video>
-                },
-                None => VirtualNode::text(""),
-            };
-            html! {
-                <div>
-                    <hr />
-                    <div class=PROJECT>
-                        <div class=PROJECT_BANNER>
-                            <a
-                                href=project.url.to_string()
-                                class=PROJECT_NAME
-                            >{ project.name.to_string() }</a>
-                            <span>
-                                <b>Role: </b> { project.role.to_string() }
-                            </span>
-                        </div>
-                        <p>{ project.description.to_string() }</p>
-                        { video }
-                        <div>
-                            <b>Languages: </b> { languages }
-                            <br />
-                            <b>Technologies: </b> { technologies }
-                        </div>
-                    </div>
-                </div>
-            }
-        }).collect();
+
+                    let video = match &project.video {
+                        Some(path) => html!("video", {
+                            .class(&*VIDEO)
+                            .attribute("src", &path)
+                            .attribute("loop", "true")
+                            .attribute("controls", "true")
+                            .text("Your browser does not support HTML5 videos")
+                        }),
+                        None => Dom::empty(),
+                    };
+
+                    html!("div", {
+                        .children(&mut [
+                            html!("hr"),
+                            html!("div", {
+                                .class(&*PROJECT)
+                                .children(&mut [
+                                    html!("div", {
+                                        .class(&*PROJECT_BANNER)
+                                        .children(&mut [
+                                            html!("a", {
+                                                .attribute("href", &project.url)
+                                                .class(&*PROJECT_NAME)
+                                            }),
+                                            html!("span", {
+                                                .children(&mut [
+                                                    html!("b", {
+                                                        .text("Role: ")
+                                                    }),
+                                                    html!("span", {
+                                                        .text(&project.role)
+                                                    })
+                                                ])
+                                            })
+                                        ])
+                                    }),
+                                    html!("p", {
+                                        .class(&*PARAGRAPH)
+                                        .text(&project.description)
+                                    }),
+                                    video,
+                                    html!("div", {
+                                        .children(&mut [
+                                            html!("b", {
+                                                .text("Languages: ")
+                                            }),
+                                            html!("span", {
+                                                .children(&mut languages)
+                                            }),
+                                            html!("br"),
+                                            html!("b", {
+                                                .text("Technologies: ")
+                                            }),
+                                            html!("span", {
+                                                .children(&mut technologies)
+                                            })
+                                        ])
+                                    })
+                                ])
+                            })
+                        ])
+                    })
+                })
+                .collect();
 
         let mut email_url = String::from("mailto:");
-        email_url.push_str(&config.email);
+        email_url.push_str(&state.config.email);
 
-        let view = html! {
-            <div class=CONTENT>
-                <h1 class=CENTER>{ config.name }</h1>
-                <div class=CENTER><em><a href=email_url>{ config.email }</a></em></div>
-                <p>{ config.about }</p>
-                { projects }
-            </div>
-        };
+        projects.insert(
+            0,
+            html!("h1", {
+                .class(&*CENTER)
+                .text(&state.config.name)
+            }),
+        );
+        projects.insert(
+            1,
+            html!("div", {
+                .class(&*CENTER)
+                .children(&mut [
+                    html!("em", {
+                        .children(&mut [
+                            html!("a", {
+                                .attribute("href", &email_url)
+                                .text(&state.config.email)
+                            })
+                        ])
+                    })
+                ])
+            }),
+        );
+        projects.insert(
+            2,
+            html!("p", {
+                .class(&*PARAGRAPH)
+                .text(&state.config.about)
+            }),
+        );
 
-        let window = web_sys::window().unwrap();
-        let document = window.document().unwrap();
-        let body = document.body().unwrap();
-
-        let dom_updater = DomUpdater::new_append_to_mount(view, &body);
-
-        App { dom_updater }
+        html!("div", {
+            .class(&*BACKGROUND)
+            .children(&mut [
+                html!("div", {
+                    .class(&*CONTENT)
+                    .children(&mut projects)
+                })
+            ])
+        })
     }
 }
 
-static CONTENT: &'static str = css!{r#"
-    :host {
-        margin: 0 auto;
-        max-width: 700px;
-        width: calc(100% - 100px);
-        padding: 25px;
-        border-radius: 25px;
-        background-color: #ffffff8c;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-"#};
+#[wasm_bindgen(start)]
+pub fn main_js() -> Result<(), JsValue> {
+    #[cfg(debug_assertions)]
+    console_error_panic_hook::set_once();
 
-static CENTER: &'static str = css!{r#"
-    :host {
-        text-align: center;
-    }
-"#};
+    console_log::init_with_level(log::Level::Debug).unwrap();
 
-static PROJECT: &'static str = css!{r#"
-    :host {
-        margin: 5px 0;
-    }
-"#};
+    let state = State::new();
 
-static PROJECT_BANNER: &'static str = css!{r#"
-    :host {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-"#};
-static PROJECT_NAME: &'static str = css!{r#"
-    :host {
-        font-size: x-large;
-        font-weight: bold;
-    }
-"#};
+    dominator::append_dom(&dominator::body(), State::render(state));
 
-static _STYLE: &'static str = css!{r#"
-    body {
-        margin: 0;
-        padding: 25px 0;
-        width: 100%;
-        height: 100%;
-        font-family: "Arial", Courier, monospace;
-    }
-
-    p {
-        text-indent: 2em;
-    }
-
-    video {
-        width: 100%;
-    }
-"#};
+    Ok(())
+}
