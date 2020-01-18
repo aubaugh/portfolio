@@ -75,14 +75,22 @@ impl App {
                 }
             }).collect();
             let video = match &project.video {
-                Some(path) => html! {
-                    <video
-                        src=path 
-                        loop="true"
-                        controls="true"
-                    >
-                        Your browser does not support HTML5 videos
-                    </video>
+                Some(path) => {
+                    let mut webm: String = path.clone();
+                    webm.push_str(".webm");
+                    let mut mp4 = path.clone();
+                    mp4.push_str(".mp4");
+                    html! {
+                        <video
+                            muted="true"
+                            loop="true"
+                            controls="true"
+                        >
+                            <source src=webm type="video/webm" />
+                            <source src=mp4 type="video/mp4" />
+                            Your browser does not support HTML5 videos
+                        </video>
+                    }
                 },
                 None => VirtualNode::text(""),
             };
