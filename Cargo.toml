@@ -1,28 +1,31 @@
 [package]
-name = "portfolio"
-description = "A portfolio generator"
 version = "0.1.0"
-authors = ["Austin Baugh <abaugh@pdx.edu>"]
-edition = "2018"
-repository = "https://github.com/austinsheep/austinsheep.github.io"
-readme = "README.md"
+name = "app_name"
+repository = "https://github.com/seed-rs/seed-quickstart"
+authors = ["Your Name <email@address.com>"]
+description = "App Description"
+categories = ["category"]
 license = "MIT"
+readme = "./README.md"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.13"
+
+[dependencies]
+# This commit points to Seed 0.7.0 with important fixes.
+# Replace with `seed = "0.8.0"` (or newer) once released.
+seed = { git = "https://github.com/seed-rs/seed", rev = "0a538f0" }
+ron = "0.5.1"
+serde = { version = "1", features = ["serde_derive"] }
 
 [profile.release]
 lto = true
+opt-level = 'z'
+codegen-units = 1
 
-[lib]
-crate-type = ["cdylib"] # Don't forget this!
-
-[dependencies]
-wasm-bindgen = "0.2.48"
-ron = "0.5.1"
-serde = { version = "1", features = ["serde_derive"] }
-futures-signals = "0.3.0"
-lazy_static = "1.0.0"
-dominator = "0.5.6"
-log = "0.4"
-console_log = "0.1"
-
-[target."cfg(debug_assertions)".dependencies]
-console_error_panic_hook = "0.1.5"
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ['-Os']
