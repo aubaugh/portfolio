@@ -76,13 +76,13 @@ fn view(model: &Model) -> Node<Msg> {
 
                     span![
                         em![
+                            span![&separator],
                             a![
                                 attrs! {
                                     At::Href => &model.languages[language]
                                 },
                                 &language
-                            ],
-                            span![&separator]
+                            ]
                         ]
                     ]
                 }).collect();
@@ -97,13 +97,13 @@ fn view(model: &Model) -> Node<Msg> {
 
             span![
                 em![
+                    span![&separator],
                     a![
                         attrs! {
                             At::Href => &model.technologies[technology]
                         },
                         &technology
-                    ],
-                    span![&separator]
+                    ]
                 ]
             ]
         }).collect();
