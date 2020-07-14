@@ -1,24 +1,19 @@
-#![feature(proc_macro_hygiene)]
+// (Lines like the one below ignore selected Clippy rules
+//  - it's useful when you want to check your code with `cargo make verify`
+// but some rules are too "annoying" or are not applicable for your case.)
+#![allow(clippy::wildcard_imports)]
 
-use wasm_bindgen::prelude::*;
-use web_sys;
-
-use css_rs_macro::css;
-use virtual_dom_rs::prelude::*;
-use std::collections::HashMap;
-
-use ron::de::from_str;
 use serde::Deserialize;
+use std::collections::HashMap;
+use seed::{prelude::*, *};
 
-/// The configuration structure that is included and deserialized from `config.ron`
 #[derive(Debug, Deserialize)]
 struct Portfolio {
     name: String,
     email: String,
-    about: String,
     languages: HashMap<String, String>,
     technologies: HashMap<String, String>,
-    projects: Vec<Project>
+    projects: Vec<Project>,
 }
 #[derive(Debug, Deserialize)]
 struct Project {
@@ -31,169 +26,211 @@ struct Project {
     url: String,
 }
 
-#[wasm_bindgen]
-struct App {
-  dom_updater: DomUpdater
+// ------ ------
+//     Init
+// ------ ------
+
+// `init` describes what should happen when your app started.
+fn init(_: Url, _: &mut impl Orders<Msg>) -> Model {
+    ron::de::from_str(include_str!("../static/config.ron")).unwrap()
 }
 
-#[wasm_bindgen]
-impl App {
-    #[wasm_bindgen(constructor)]
-    pub fn new () -> App {
-        let config_file = include_str!("../config.ron");
-        let config: Portfolio = from_str(config_file).unwrap();
-        let projects: Vec<VirtualNode> = config.projects
-            .iter().map(|project| {
-            let languages: Vec<VirtualNode> = project.languages
-                .iter().enumerate().map(|(index, language)| {
-                let separator = if index + 1 < project.languages.len() {
-                    VirtualNode::text(" \u{2662} ")
-                } else {
-                    VirtualNode::text("")
-                };
-                html! {
-                    <span><em><a
-                        href=config.languages[&language.to_string()].to_string()
-                    >{ language.to_string() }</a></em>{
-                        separator
-                    }</span>
-                }
-            }).collect();
-            let technologies: Vec<VirtualNode> = project.technologies
-                .iter().enumerate().map(|(index, technology)| {
-                let separator = if index + 1 < project.technologies.len() {
-                    VirtualNode::text(" \u{2662} ")
-                } else {
-                    VirtualNode::text("")
-                };
-                html! {
-                    <span><em><a
-                        href=config.technologies[&technology.to_string()].to_string()
-                    >{ technology.to_string() }</a></em>{
-                        separator
-                    }</span>
-                }
-            }).collect();
-            let video = match &project.video {
-                Some(path) => {
-                    let mut webm: String = path.clone();
-                    webm.push_str(".webm");
-                    let mut mp4 = path.clone();
-                    mp4.push_str(".mp4");
-                    html! {
-                        <video
-                            muted="true"
-                            loop="true"
-                            controls="true"
-                        >
-                            <source src=webm type="video/webm" />
-                            <source src=mp4 type="video/mp4" />
-                            Your browser does not support HTML5 videos
-                        </video>
-                    }
-                },
-                None => VirtualNode::text(""),
+// ------ ------
+//     Model
+// ------ ------
+
+// `Model` describes our app state.
+type Model = Portfolio;
+
+// ------ ------
+//    Update
+// ------ ------
+
+// (Remove the line below once any of your `Msg` variants doesn't implement `Copy`.)
+#[derive(Copy, Clone)]
+// `Msg` describes the different events you can modify state with.
+enum Msg {}
+
+// `update` describes how to handle each `Msg`.
+fn update(_msg: Msg, _model: &mut Model, _: &mut impl Orders<Msg>) {}
+
+// ------ ------
+//     View
+// ------ ------
+
+// (Remove the line below once your `Model` become more complex.)
+#[allow(clippy::trivially_copy_pass_by_ref)]
+// `view` describes what to display.
+fn view(model: &Model) -> Node<Msg> {
+    let mut projects: Vec<Node<Msg>> = model
+        .projects
+        .iter()
+        .map(|project| {
+            let languages: Vec<Node<Msg>> = project.languages.iter().enumerate()
+                .map(|(index, language)| {
+                    let separator = if index > 0 {
+                        String::from(" \u{2662} ")
+                    } else {
+                        String::new()
+                    };
+
+                    span![
+                        em![
+                            a![
+                                attrs! {
+                                    At::Href => &model.languages[language]
+                                },
+                                &language
+                            ],
+                            span![&separator]
+                        ]
+                    ]
+                }).collect();
+
+                let technologies: Vec<Node<Msg>> = project.technologies
+            .iter().enumerate().map(|(index, technology)| {
+            let separator = if index > 0 {
+                String::from(" \u{2662} ")
+            } else {
+                String::new()
             };
-            html! {
-                <div>
-                    <hr />
-                    <div class=PROJECT>
-                        <div class=PROJECT_BANNER>
-                            <a
-                                href=project.url.to_string()
-                                class=PROJECT_NAME
-                            >{ project.name.to_string() }</a>
-                            <span>
-                                <b>Role: </b> { project.role.to_string() }
-                            </span>
-                        </div>
-                        <p>{ project.description.to_string() }</p>
-                        { video }
-                        <div>
-                            <b>Languages: </b> { languages }
-                            <br />
-                            <b>Technologies: </b> { technologies }
-                        </div>
-                    </div>
-                </div>
-            }
+
+            span![
+                em![
+                    a![
+                        attrs! {
+                            At::Href => &model.technologies[technology]
+                        },
+                        &technology
+                    ],
+                    span![&separator]
+                ]
+            ]
         }).collect();
 
-        let mut email_url = String::from("mailto:");
-        email_url.push_str(&config.email);
-
-        let view = html! {
-            <div class=CONTENT>
-                <h1 class=CENTER>{ config.name }</h1>
-                <div class=CENTER><em><a href=email_url>{ config.email }</a></em></div>
-                <p>{ config.about }</p>
-                { projects }
-            </div>
+        let video = match &project.video {
+            Some(path) => video![
+                style! {
+                    St::Width => "100%"
+                },
+                attrs! {
+                    At::Src => &path,
+                    At::Loop => true,
+                    At::Controls => true,
+                },
+                "Your browser does not support HTML5 videos"
+            ],
+            None => empty![]
         };
 
-        let window = web_sys::window().unwrap();
-        let document = window.document().unwrap();
-        let body = document.body().unwrap();
+        div![
+            hr![],
+            div![
+                style! {
+                    St::Margin => "5px 0"
+                },
+                div![
+                    style! {
+                        St::Display => "flex",
+                        St::AlignItems => "center",
+                        St::JustifyContent => "space-between",
+                    },
+                    a![
+                        attrs! {
+                            At::Href => &project.url
+                        },
+                        style! {
+                            St::FontSize => "x-large",
+                            St::FontWeight => "bold",
+                        },
+                        &project.name
+                    ],
+                    span![
+                        b!["Role: "],
+                        span![&project.role]
+                    ]
+                ],
+                p![
+                    style! {
+                        St::TextIndent => "2em"
+                    },
+                    &project.description
+                ],
+                video,
+                div![
+                    b!["Languages: "],
+                    span![languages],
+                    br![],
+                    b!["Technologies: "],
+                    span![technologies]
+                ]
+            ]
+        ]
+    }).collect();
 
-        let dom_updater = DomUpdater::new_append_to_mount(view, &body);
+    let mut email_url = String::from("mailto:");
+    email_url.push_str(&model.email);
 
-        App { dom_updater }
-    }
+    projects.insert(
+        0,
+        h1![
+            style! {
+                St::TextAlign => "center"
+            },
+            &model.name
+        ]
+    );
+    projects.insert(
+        1,
+        div![
+            style! {
+                St::TextAlign => "center"
+            },
+            em![
+                a![
+                    attrs! {
+                        At::Href => &email_url
+                    },
+                    &model.email
+                ]
+            ]
+        ]
+    );
+
+    div![
+        style! {
+            St::Padding => "25px 0",
+            St::Width => "100%",
+            St::Height => "100%",
+            St::BackgroundImage => "url(static/assets/background.jpg)",
+            St::BackgroundRepeat => "no-repeat",
+            St::BackgroundSize => "cover",
+            St::BackgroundAttachment => "fixed",
+        },
+        div![
+            style! {
+                St::Margin => "0 auto",
+                St::MaxWidth => "700px",
+                St::Width => "calc(100% - 100px)",
+                St::Padding => "25px",
+                St::BorderRadius => "25px",
+                St::BackgroundColor => "#ffffff8c",
+                St::BackdropFilter => "blur(10px)",
+                //TODO: Not available atm
+                //St::WebkitBackdropFilter => "blur(10px)",
+            },
+            projects
+        ]
+    ]
 }
 
-static CONTENT: &'static str = css!{r#"
-    :host {
-        margin: 0 auto;
-        max-width: 700px;
-        width: calc(100% - 100px);
-        padding: 25px;
-        border-radius: 25px;
-        background-color: #ffffff8c;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
-"#};
+// ------ ------
+//     Start
+// ------ ------
 
-static CENTER: &'static str = css!{r#"
-    :host {
-        text-align: center;
-    }
-"#};
-
-static PROJECT: &'static str = css!{r#"
-    :host {
-        margin: 5px 0;
-    }
-"#};
-
-static PROJECT_BANNER: &'static str = css!{r#"
-    :host {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-"#};
-static PROJECT_NAME: &'static str = css!{r#"
-    :host {
-        font-size: x-large;
-        font-weight: bold;
-    }
-"#};
-
-static _STYLE: &'static str = css!{r#"
-    body {
-        margin: 0;
-        padding: 25px 0;
-        width: 100%;
-        height: 100%;
-        font-family: "Arial", Courier, monospace;
-    }
-
-    p {
-        text-indent: 2em;
-    }
-
-    video {
-        width: 100%;
-    }
-"#};
+// (This function is invoked by `init` function in `index.html`.)
+#[wasm_bindgen(start)]
+pub fn start() {
+    // Mount the `app` to the element with the `id` "app".
+    App::start("app", init, update, view);
+}

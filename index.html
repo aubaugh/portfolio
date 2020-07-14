@@ -1,28 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" type="text/css" href="/app.css" />
-        <link rel="shortcut icon" href="#" />
-        <title>Austin Baugh</title>
-        <script type="module">
-            // Import and use `portfolio`
-            import { App, default as init } from '/portfolio.js'
-            async function run() {
-                await init('/portfolio_bg.wasm')
-                new App()
-                document.body.style.backgroundImage = "url(background.jpg)"
-                document.body.style.backgroundRepeat = "no-repeat"
-                document.body.style.backgroundSize = "cover"
-                document.body.style.backgroundAttachment = "fixed"
-            }
-            run()
-        </script>
-    </head>
-    <body>
-<!--[if IE]>
-Web assembly is not supported by Internet Explorer, consider using a different browser.
-<![endif]-->
-    </body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="shortcut icon" href="#" />
+	<title>Austin Baugh</title>
+	<style>
+body {
+    margin: 0;
+    font-family: "Arial", Courier, monospace;
+}
+	</style>
+    <script type="module">
+        import init from '/pkg/package.js';
+        init('/pkg/package_bg.wasm');
+    </script>
+</head>
+
+<body>
+    <section id="app"></section>
+</body>
 </html>
