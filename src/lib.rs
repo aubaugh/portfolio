@@ -11,7 +11,6 @@ use seed::{prelude::*, *};
 struct Portfolio {
     name: String,
     email: String,
-    about: String,
     languages: HashMap<String, String>,
     technologies: HashMap<String, String>,
     projects: Vec<Project>,
@@ -195,15 +194,6 @@ fn view(model: &Model) -> Node<Msg> {
                     &model.email
                 ]
             ]
-        ]
-    );
-    projects.insert(
-        2,
-        p![
-            style! {
-                St::TextIndent => "2em"
-            },
-            &model.about
         ]
     );
 
