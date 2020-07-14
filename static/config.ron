@@ -36,7 +36,7 @@ Portfolio(
             languages: [ "TypeScript" ],
             technologies: [ "Next.js", "NetlifyCMS", "Bulma", "Azure Pipelines" ],
             description: "An updated website for Minburn Technology Group utilizing modern technologies. Designed for a range of screen sizes with support for all major browsers. Continuous integration was used during the development of this website for ease of testing.",
-            video: Some(""),
+            video: None,
             url: "https://minburntech-prod.azurewebsites.net/",
         ),
         Project(
